@@ -1,0 +1,21 @@
+//
+// Prefix header for all source files of the 'Open' target in the 'Open' project
+//
+
+#import <Availability.h>
+
+#ifndef __IPHONE_4_0
+#warning "This project uses features only available in iOS SDK 4.0 and later."
+#endif
+
+#ifdef __OBJC__
+    #import <UIKit/UIKit.h>
+    #import <Foundation/Foundation.h>
+//    #import <GLKit/GLKit.h>
+    #import <QuartzCore/QuartzCore.h>
+//    #import <TestFlight.h>
+    #import <GLKit/GLKit.h>
+    #import "AFNetworking.h"
+    #import "WSConstants.h"
+    #import "WSAppDelegate.h"
+#endif
