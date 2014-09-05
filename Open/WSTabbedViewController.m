@@ -14,12 +14,10 @@
 
 #import "RNFrostedSidebar.h"
 #import "WSTabbedViewController.h"
-#import "WSTiledImageViewController.h"
-
 #import "wsCollectionViewController.h"
-
-#import "WSGLBrowserViewController.h"
 #import "WSBrowserTabViewController.h"
+
+#import "WSLayersViewController.h"
 
 #import "wsWebPageObject.h"
 
@@ -82,7 +80,7 @@
 //    [self.defaultContentView loadRequest:[NSURLRequest requestWithURL:[NSURL URLWithString:@"http://google.com"]]];
 //    
 //    
-    [self addSystemMenu];
+//    [self addSystemMenu];
 
     
     
@@ -159,16 +157,6 @@
 -(void)tabViewController:(QMBTabViewController *)tabViewController willRemoveViewController:(UIViewController *)viewController
 {
     VerboseLog(@"%@", viewController.class);
-    
-    
-    
-    if ([viewController isKindOfClass:[GLKViewController class]]){
-        
-        WSGLBrowserViewController* vc = (WSGLBrowserViewController*)viewController;
-        
-        [vc tearDownGL];
-        
-    }
 }
 
 - (void)tabViewController:(QMBTabViewController *)tabViewController didSelectViewController:(UIViewController *)viewController
@@ -194,21 +182,7 @@
         }
         
     }
-//        if ([vc isKindOfClass:[GLKViewController class]] && ![vc isEqual:viewController]) {
-//            
-//            NSLog(@"found a glk, setting to 0 fps %@", [vc class]);
-//            [((GLKViewController*)vc) setPreferredFramesPerSecond:0];
-//
-//        }
-//        else if ([controller isKindOfClass:[GLKViewController class]]){
-//            NSLog(@"found a glk (active), setting to 60fps  %@", [vc class]);
-//            [((GLKViewController*)vc) setPreferredFramesPerSecond:30];
-//        }
-//        else{
-//            NSLog(@"not a glkview %@", [vc class]);
-//        }
-//        
-//    }
+
 }
 
 
@@ -258,37 +232,13 @@
     VerboseLog(@"%@", theObject.class);
     
     if ([theObject isKindOfClass:[wsImageObject class]]) {
-
         
-#define USE_EXP_GL 0
+        WSLayersViewController* newTab = [[WSLayersViewController alloc] init];
         
-#if ISMBF 
+                [newTab updateWithObject:(wsImageObject*)theObject];
         
-#define USE_EXP_GL 0
-    
-#endif
+                [[WSMetaDataStore sharedDataStore] pushDataObjectToHistory:theObject];
         
-#if USE_EXP_GL
-     
-        WSGLBrowserViewController* newTab = [[WSGLBrowserViewController alloc] init];
-        [newTab updateWithObject:(wsRenderObject*)theObject];
-        [[WSMetaDataStore sharedDataStore] pushDataObjectToHistory:theObject];
-        
-#else
-        
-        WSTiledImageViewController* newTab = [[WSTiledImageViewController alloc] init];
-        [newTab updateWithObject:theObject];
-        
-        [[WSMetaDataStore sharedDataStore] pushDataObjectToHistory:theObject];
-        
-        
-#endif
-        
-        
-        
-        
-
-
         NSString* localizedName = theObject.localizedName;
         __weak WSTabbedViewController* weakself = self;
         
@@ -324,42 +274,7 @@
 }
 
 
-
-
-
-- (void) addSystemMenu
-{
-
-    NSArray *images = @[
-                        [FontAwesome imageWithIcon:fa_folder size:150 color:UIColorFromRGB(0xffffff)],
-                        [FontAwesome imageWithIcon:fa_globe size:150 color:UIColorFromRGB(0xffffff)],
-                        [FontAwesome imageWithIcon:fa_search size:150 color:UIColorFromRGB(0xffffff)],
-                        [FontAwesome imageWithIcon:fa_pause size:150 color:UIColorFromRGB(0xffffff)],
-                        [FontAwesome imageWithIcon:fa_cog size:150 color:UIColorFromRGB(0xffffff)]
-                        ];
-
-    NSArray *colors = @[kSystemMenuBackgroundColor, kSystemMenuBackgroundColor, kSystemMenuBackgroundColor, kSystemMenuBackgroundColor,  kSystemMenuBackgroundColor];
-    NSArray* labels = @[@"", @"", @"", @"", @""];
-
-    self.sideMenu = [[RNFrostedSidebar alloc] initWithImages:images selectedIndices:Nil borderColors:colors labelStrings:labels];
-    self.sideMenu.isSingleSelect = YES;
-    self.sideMenu.width = 150;
-    self.sideMenu.height = MIN(600, self.view.frame.size.height - 100);
-    self.sideMenu.delegate = self;
-
-}
-
-
-
-
-
-
-
-
-
 -(void) doubleTapTab:(UITapGestureRecognizer*)r {
-    
-//    int tab_index = [se lf.tabBar.items indexOfObject:r.view];
     
     UIViewController* vc = self.selectedViewController;
     
@@ -374,17 +289,8 @@
             [[NSNotificationCenter defaultCenter] postNotificationName:kNotificationPresentMoreInformation object:msg];
             
         }
-        
-        
     }
-    
-    
 }
-
-
-
-
-
 
 
 @end

@@ -106,6 +106,8 @@
 
 @implementation wsImageObject
 
+@synthesize nativeSize, tileSize, tile, description, maximumZoom;
+
 
 // FROM: http://stackoverflow.com/questions/364985/algorithm-for-finding-the-smallest-power-of-two-thats-greater-or-equal-to-a-giv
 /// Round up to next higher power of 2 (return x if it's already a power

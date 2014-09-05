@@ -39,7 +39,8 @@
 {
     VerboseLog();
     
-    self.fontAwesomeIconString = fa_folder_o;
+//    self.localIconString = @"MBFlogo.png";
+//    self.fontAwesomeIconString = fa_folder_o;
     
     if (self.server) {
         
@@ -96,6 +97,12 @@
         if ([obj isKindOfClass:[wsBiolucidaRemoteImageObject class]]) {
             [discardedItems addObject:obj];
         }
+        
+        if ([obj isKindOfClass:[wsWebPageObject class]]) {
+            [discardedItems addObject:obj];
+        }
+        
+        
     }
     
     [self.children removeObjectsInArray:discardedItems];
@@ -115,43 +122,68 @@
     
     NSURL* serverPath = [self.server.url URLByAppendingPathComponent:[NSString stringWithFormat:@"api/v1/slides/0/30%@", thePath]];
     
+    
     [manager GET:serverPath.absoluteString parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
         
         NSDictionary* allImagesDictionary = (NSDictionary*) responseObject;
         
         NSMutableArray* rows = [[NSMutableArray alloc] init];
         
+        
         if ([allImagesDictionary[@"status"] isEqualToString:@"success"]) {
             
             for (NSDictionary* imageDictionary in allImagesDictionary[@"images"]) {
 
-                wsBiolucidaRemoteImageObject* rio = [wsBiolucidaRemoteImageObject new];
-                rio.url_id = imageDictionary[@"url"];
+                NSLog(@"%@", imageDictionary);
                 
-                NSURL* metadataURL = [self.server.url URLByAppendingPathComponent:[NSString stringWithFormat:@"api/v1/image/%@", rio.url_id]];
+#warning Hacked together PDF detection
                 
-                rio.metadataURL = metadataURL;
-                
-                NSDictionary *metadataDict = [NSJSONSerialization JSONObjectWithData:[NSData dataWithContentsOfURL:metadataURL] options:0 error:nil];
+                if ([imageDictionary[@"image_type"] isEqualToString:@"linkfile"]) {
+                    
+                    wsWebPageObject* wpo = [wsWebPageObject new];
+                    wpo.title = imageDictionary[@"title"];
+                    wpo.description = imageDictionary[@"description"];
+                    wpo.localIconString = @"external_link.png";
+                    wpo.fullURL = [NSURL URLWithString:imageDictionary[@"url"]];
 
-                rio.title = imageDictionary[@"title"];
-                rio.description = imageDictionary[@"description"];
-                rio.nativeSize = CGSizeMake([imageDictionary[@"width"] integerValue],
-                                           [imageDictionary[@"height"] integerValue]);
-                rio.collection_id =imageDictionary[@"collection_id"];
-                rio.tileSize = CGSizeMake([metadataDict[@"tile_x"] floatValue], [metadataDict[@"tile_y"] floatValue]);
-                rio.mpp = metadataDict[@"mpp"];
-                rio.focal_spacing = metadataDict[@"focal_spacing"];
-                rio.z_max = metadataDict[@"focal_planes"];
-                rio.z_index = @0;
+                    [rows addObject:wpo];
+                    
+                }
+                else
+                {
+                    wsBiolucidaRemoteImageObject* rio = [wsBiolucidaRemoteImageObject new];
+                    rio.url_id = imageDictionary[@"url"];
+                    
+                    NSURL* metadataURL = [self.server.url URLByAppendingPathComponent:[NSString stringWithFormat:@"api/v1/image/%@", rio.url_id]];
+                    
+                    NSLog(@"%@", metadataURL);
+                    
+//                    rio.metadataURL = metadataURL;
+//                    
+//                    NSDictionary *metadataDict = [NSJSONSerialization JSONObjectWithData:[NSData dataWithContentsOfURL:metadataURL] options:0 error:nil];
+//                    
+                    rio.title = imageDictionary[@"title"];
+                    rio.description = imageDictionary[@"description"];
+                    rio.nativeSize = CGSizeMake([imageDictionary[@"width"] integerValue],
+                                                [imageDictionary[@"height"] integerValue]);
+                    rio.collection_id =imageDictionary[@"collection_id"];
+//                    rio.tileSize = CGSizeMake([metadataDict[@"tile_x"] floatValue], [metadataDict[@"tile_y"] floatValue]);
+//                    rio.mpp = metadataDict[@"mpp"];
+//                    rio.focal_spacing = metadataDict[@"focal_spacing"];
+//                    rio.z_max = metadataDict[@"focal_planes"];
+//                    rio.z_index = @0;
+                    
+                    rio.url = self.server.url;
+                    
+                    rio.thumbnail_base = [[imageDictionary[@"thumbnail"] stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding]  stringByReplacingOccurrencesOfString:@"&amp;" withString:@"&"];
+                    
+                    [rio setLayerBackground:[self.server.url URLByAppendingPathComponent:[NSString stringWithFormat:@"api/v1/tile/%@", rio.url_id]]];
+
+                    [rows addObject:rio];
+
+                }
                 
-                rio.url = self.server.url;
                 
-                rio.thumbnail_base = [[imageDictionary[@"thumbnail"] stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding]  stringByReplacingOccurrencesOfString:@"&amp;" withString:@"&"];
-                
-                [rio setLayerBackground:[self.server.url URLByAppendingPathComponent:[NSString stringWithFormat:@"api/v1/tile/%@", rio.url_id]]];
-                
-                [rows addObject:rio];
             }
             
             [self removeImagesForCollection]; // smarter me would find a way to keep this, rather than cacheing

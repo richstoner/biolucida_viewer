@@ -39,7 +39,7 @@
 {
     if (IS_IPAD) {
         
-        self.imageView.image = [FontAwesome imageWithIcon:fontAwesomeString iconColor:self.iconColor iconSize:36 imageSize:CGSizeMake(self.imageView.frame.size.width, self.imageView.frame.size.height )];
+        self.imageView.image = [FontAwesome imageWithIcon:fontAwesomeString iconColor:self.iconColor iconSize:40 imageSize:CGSizeMake(self.imageView.frame.size.width, self.imageView.frame.size.height )];
         
     }
     else{

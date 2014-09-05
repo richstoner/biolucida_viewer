@@ -344,9 +344,9 @@ GLKVector3IntString(const GLKVector3 v1)
 #define kSectionDetailFontColor             [UIColor darkGrayColor]
 #define kSectionBackgroundColor             kCollectionViewBackgroundColor
 
-#define kCollectionItemBackgroundColor      [UIColor colorWithWhite:0.05f alpha:1.0f]
-#define kCollectionItemHeaderFontColor      kMBFWhite
-#define kCollectionItemDetailFontColor      kMBFWhite
+#define kCollectionItemBackgroundColor      [UIColor clearColor]
+#define kCollectionItemHeaderFontColor      [UIColor darkGrayColor]
+#define kCollectionItemDetailFontColor      kMBFBlue
 
 #define kCollectionSystemItemFontColor      [UIColor blackColor]
 
@@ -367,9 +367,9 @@ GLKVector3IntString(const GLKVector3 v1)
 #define kAddItemTintColor                   kMBFBlue
 #define kAddItemFloatingLabelColor          UIColorFromRGB(0x00cc00)
 
-#define kHistoryBackgroundColor             kMBFWhite
-#define kHistoryTitleColor                  [UIColor darkGrayColor]
-#define kHistorySpacerColor                 [UIColor blackColor]
+#define kHistoryBackgroundColor             [UIColor lightGrayColor]
+#define kHistoryTitleColor                  kMBFWhite
+#define kHistorySpacerColor                 kMBFBlue
 
 #define kAccessoryBackgroundColor           [UIColor colorWithWhite:0.05f alpha:1.0f]
 #define kFontAwesomeIconColor               kMBFBlue

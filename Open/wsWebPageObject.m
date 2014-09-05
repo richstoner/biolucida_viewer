@@ -10,6 +10,8 @@
 
 @implementation wsWebPageObject
 
+@synthesize description, title, server, basePath, fullURL;
+
 - (id)init
 {
     self = [super init];

@@ -14,6 +14,11 @@
 @synthesize originalIndexList;
 @synthesize delegate;
 
+
+@synthesize description;
+@synthesize title;
+@synthesize children;
+
 - (id)init
 {
     self = [super init];

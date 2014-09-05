@@ -10,6 +10,8 @@
 
 @implementation wsSystemObject
 
+@synthesize title, description;
+
 -(NSString*) localizedName {
     return self.title;
 }

@@ -50,7 +50,7 @@
         [self addSubview:self.secondaryTextLabel];
 
 //        UIView* lineView = [[UIView alloc] initWithFrame:CGRectMake(0, 34, self.frame.size.width, 2)];
-//        lineView.backgroundColor = kDirectoryDetailFontColor;
+//        lineView.backgroundColor = kSectionDetailFontColor;
 //        [lineView setAutoresizingMask:UIViewAutoresizingFlexibleWidth];
 //        [self addSubview:lineView];
         
@@ -82,7 +82,6 @@
         for (UIView* view in self.subviews) {
             
             if ([view isKindOfClass:[UIButton class]]) {
-                
                 // removing the add contact button
                 [view removeFromSuperview];
             }
@@ -94,9 +93,7 @@
 
 -(void) performAddObjectActivity:(id)sender
 {
-    
     NSDictionary* msg = @{@"source" : self.collection};
-    
     [[NSNotificationCenter defaultCenter] postNotificationName:kNotificationAddObject object:msg];
 }
 

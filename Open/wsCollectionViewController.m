@@ -12,16 +12,13 @@
 
 #import "wsCollectionViewController.h"
 #import "wsCollectionObject.h"
-
 #import "WSCollectionHeaderCell.h"
-#import "wsImagePreviewCell.h"
-
-#import "wsDefaultCollectionCell.h"
-#import "wsDetailedCollectionCell.h"
-
 
 #import "WSCollectionViewItemCell.h"
-#import "LessBoringFlowLayout.h"
+#import "WSFontAwesomeCell.h"
+#import "WSCollectionServerCell.h"
+#import "wsLargeImageCollectionCell.h"
+
 #import "wsBiolucidaServerObject.h"
 #import "wsBiolucidaCollectionObject.h"
 
@@ -30,15 +27,20 @@
 
 #import "RNBlurModalView.h"
 
+//#import "wsImagePreviewCell.h"
+//#import "wsDefaultCollectionCell.h"
+//#import "wsDetailedCollectionCell.h"
 #import <NHAlignmentFlowLayout.h>
-#import <NHBalancedFlowLayout.h>
-#import <RFQuiltLayout.h>
-#import <DMDynamicWaterfall.h>
+//#import <NHBalancedFlowLayout.h>
+//#import <RFQuiltLayout.h>
+//#import <DMDynamicWaterfall.h>
+//#import <MYNStickyFlowLayout.h>
+//#import <ARCollectionViewMasonryLayout.h>
+//#import <BMFloatingHeaderCollectionViewLayout.h>
 
-#import "wsLargeImageCollectionCell.h"
+
 
 #import "wsCollectionLayout.h"
-
 #import "wsCollectionPath.h"
 
 typedef enum {
@@ -47,13 +49,17 @@ typedef enum {
     thumbnailLarge
 } thumbnailSizeOption;
 
-static NSString * const CollectionCellIdentifier = @"CollectionCell";
-static NSString * const CollectionImagePreviewIdentifier = @"CollectionPreviewCell";
+//static NSString * const CollectionCellIdentifier = @"CollectionCell";
+//static NSString * const CollectionImagePreviewIdentifier = @"CollectionPreviewCell";
+
+//static NSString * const CollectionDetailCellidentifier = @"DetailCell";
+//static NSString * const CollectionRenderObjectCellIdentifier = @"RenderCell";
+
 static NSString * const CollectionHeaderIdentifier = @"HeaderCell";
 
-static NSString * const CollectionDefaultCellidentifier = @"DefaultCell";
-static NSString * const CollectionDetailCellidentifier = @"DetailCell";
-static NSString * const CollectionRenderObjectCellIdentifier = @"RenderCell";
+static NSString * const CollectionServerCellIdentifier = @"ServerCell";
+static NSString * const CollectionFontAwesomeCellIdentifier = @"FontAwesomeCell";
+static NSString * const CollectionLargeImageCellIdentifier = @"LargeImageCell";
 
 @interface wsCollectionViewController () <UICollectionViewDataSource, UICollectionViewDelegate, UIGestureRecognizerDelegate, wsCollectionDelegate>
 {
@@ -143,7 +149,7 @@ static NSString * const CollectionRenderObjectCellIdentifier = @"RenderCell";
 }
 
 
-- (void)viewDidLoad
+- (void) viewDidLoad
 {
     [super viewDidLoad];
     
@@ -153,13 +159,14 @@ static NSString * const CollectionRenderObjectCellIdentifier = @"RenderCell";
     self.view.backgroundColor = kTabActiveBackgroundColor;
     
 //    wsCollectionLayout *layout= [[wsCollectionLayout alloc] init];
-    LessBoringFlowLayout* layout = [[LessBoringFlowLayout alloc] init];
-    
-    layout.minimumInteritemSpacing = 10;
-    layout.minimumLineSpacing = 10.f;
+    NHAlignmentFlowLayout* layout = [[NHAlignmentFlowLayout alloc] init];
     layout.scrollDirection = UICollectionViewScrollDirectionVertical;
-    layout.sectionInset = UIEdgeInsetsMake(10, 10, 40, 10);
-    
+    layout.alignment = NHAlignmentTopLeftAligned;
+
+    layout.minimumInteritemSpacing = 10.0f;
+    layout.minimumLineSpacing = 10.0f;
+    layout.scrollDirection = UICollectionViewScrollDirectionVertical;
+    layout.sectionInset = UIEdgeInsetsMake(20, 10, 20, 10);
     
     CGRect collectionFrame = self.view.frame;
     
@@ -178,14 +185,7 @@ static NSString * const CollectionRenderObjectCellIdentifier = @"RenderCell";
     
     UICollectionView * collectionView= [[UICollectionView alloc] initWithFrame:collectionFrame collectionViewLayout:layout];
     collectionView.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
-    collectionView.contentInset = UIEdgeInsetsMake(20, 10, 20, 10);
-//    if (IS_IPAD) {
-    
-//    }
-//    else{
-//
-//         collectionView.contentInset = UIEdgeInsetsMake(2, 4, 4, 2);
-//    }
+    collectionView.contentInset = UIEdgeInsetsMake(20, 10, 10, 10);
 
     [collectionView setDataSource:self];
     [collectionView setDelegate:self];
@@ -201,14 +201,18 @@ static NSString * const CollectionRenderObjectCellIdentifier = @"RenderCell";
     [self.refreshControl addTarget:self action:@selector(refreshControlAction:) forControlEvents:UIControlEventValueChanged];
     [self.collectionView addSubview:self.refreshControl];
     
-    [self.collectionView registerClass:[wsDefaultCollectionCell class] forCellWithReuseIdentifier:CollectionDefaultCellidentifier];
     
-    [self.collectionView registerClass:[wsDetailedCollectionCell class] forCellWithReuseIdentifier:CollectionDetailCellidentifier];
     
-    [self.collectionView registerClass:[wsLargeImageCollectionCell class] forCellWithReuseIdentifier:CollectionRenderObjectCellIdentifier];
+    [self.collectionView registerClass:[WSCollectionServerCell class] forCellWithReuseIdentifier:CollectionServerCellIdentifier];
     
+    [self.collectionView registerClass:[WSFontAwesomeCell class] forCellWithReuseIdentifier:CollectionFontAwesomeCellIdentifier];
+//
+    [self.collectionView registerClass:[wsLargeImageCollectionCell class] forCellWithReuseIdentifier:CollectionLargeImageCellIdentifier];
     
     [self.collectionView registerClass:[WSCollectionHeaderCell class] forSupplementaryViewOfKind:UICollectionElementKindSectionHeader withReuseIdentifier:CollectionHeaderIdentifier];
+    
+    
+    
     
     self.thumbnailQueue = [[NSOperationQueue alloc] init];
     self.thumbnailQueue.maxConcurrentOperationCount = 3;
@@ -249,11 +253,7 @@ static NSString * const CollectionRenderObjectCellIdentifier = @"RenderCell";
                                   @"object": obj};
 
             [[NSNotificationCenter defaultCenter] postNotificationName:kNotificationPresentMoreInformation object:msg];
-            
-            
         }
-        
-
     }
 }
 
@@ -370,8 +370,9 @@ static NSString * const CollectionRenderObjectCellIdentifier = @"RenderCell";
         return CGSizeMake(0, 40);
     }
     
-    return CGSizeMake(0, 40);
+    return CGSizeMake(0, 0);
 }
+
 
 
 
@@ -396,6 +397,7 @@ static NSString * const CollectionRenderObjectCellIdentifier = @"RenderCell";
     wsDataObject* obj = (wsDataObject*)[self objectForIndexPath:indexPath];
     
     WSCollectionViewItemCell* cell;
+    [cell prepareForReuse];
     
     // order of priority:
     // use remote thumbnail,
@@ -406,7 +408,7 @@ static NSString * const CollectionRenderObjectCellIdentifier = @"RenderCell";
     if([obj respondsToSelector:@selector(thumbnailURL)])
     {
         
-        cell = (WSCollectionViewItemCell*)[collectionView dequeueReusableCellWithReuseIdentifier:CollectionRenderObjectCellIdentifier forIndexPath:indexPath];
+        cell = (WSCollectionViewItemCell*)[collectionView dequeueReusableCellWithReuseIdentifier:CollectionLargeImageCellIdentifier forIndexPath:indexPath];
         
         // load photo images in the background
         __weak wsCollectionViewController *weakSelf = self;
@@ -433,27 +435,33 @@ static NSString * const CollectionRenderObjectCellIdentifier = @"RenderCell";
     }
     else if(obj.localIconString != nil)
     {
-        cell = (WSCollectionViewItemCell*)[collectionView dequeueReusableCellWithReuseIdentifier:CollectionDefaultCellidentifier forIndexPath:indexPath];
+        // thumbnail cell
+        
+        cell = (WSCollectionServerCell*)[collectionView dequeueReusableCellWithReuseIdentifier:CollectionServerCellIdentifier forIndexPath:indexPath];
         
         [cell.imageView setImage:[UIImage imageNamed:obj.localIconString]];
         
     }
     else if (obj.fontAwesomeIconString != nil)
     {
+        // generic item
         
-        cell = (WSCollectionViewItemCell*)[collectionView dequeueReusableCellWithReuseIdentifier:CollectionDetailCellidentifier forIndexPath:indexPath];
+        cell = (WSCollectionViewItemCell*)[collectionView dequeueReusableCellWithReuseIdentifier:CollectionFontAwesomeCellIdentifier forIndexPath:indexPath];
         
         [cell setFontAwesomeIcon:obj.fontAwesomeIconString];
     }
     else
     {
-        cell = (WSCollectionViewItemCell*)[collectionView dequeueReusableCellWithReuseIdentifier:CollectionDetailCellidentifier forIndexPath:indexPath];
+        // no icon found
+        
+        cell = (WSCollectionViewItemCell*)[collectionView dequeueReusableCellWithReuseIdentifier:CollectionFontAwesomeCellIdentifier forIndexPath:indexPath];
         
         [cell setFontAwesomeIcon:fa_minus];
     }
     
     [cell setPrimaryText:obj.localizedName];
     [cell setSecondaryText:obj.localizedDescription];
+    [cell setNeedsLayout];
     
     return cell;
     
@@ -469,53 +477,49 @@ static NSString * const CollectionRenderObjectCellIdentifier = @"RenderCell";
         
         if([obj respondsToSelector:@selector(thumbnailURL)])
         {
+            // large image previews
             
             return CGSizeMake(230, 180);
             
         }
         else if(obj.localIconString != nil)
         {
-            return CGSizeMake(230, 140);
+            // servers & folders
+            
+            return CGSizeMake(230, 180);
             
         }
         else if (obj.fontAwesomeIconString != nil)
         {
-            
+            // actions and system level commands
             return CGSizeMake(230, 80);
         }
-        else
-        {
-            return CGSizeMake(230, 80);
-            
-        }
-        
-        return CGSizeMake(230, 140);
-        
+
+        return CGSizeMake(230, 80);
     }
-    
     else
     {
-        switch (self.thumbnailSize) {
-            case thumbnailSmall:
-                
-                return CGSizeMake(140, 100);
-                
-                break;
-            case thumbnailMedium:
-                
-                return CGSizeMake(140,140);
-                
-                break;
-                
-            case thumbnailLarge:
-                
-                return CGSizeMake(140,200);
-                
-                break;
-                
-            default:
-                break;
-        }
+//        switch (self.thumbnailSize) {
+//            case thumbnailSmall:
+//                
+//                return CGSizeMake(140, 100);
+//                
+//                break;
+//            case thumbnailMedium:
+//                
+//                return CGSizeMake(140,140);
+//                
+//                break;
+//                
+//            case thumbnailLarge:
+//                
+//                return CGSizeMake(140,200);
+//                
+//                break;
+//                
+//            default:
+//                break;
+//        }
     }
     
 }
@@ -614,9 +618,9 @@ static NSString * const CollectionRenderObjectCellIdentifier = @"RenderCell";
     [ipToRemove minusSet:postPaths];
     [ipToAdd minusSet:prePaths];
 
-    NSLog(@"%@", ipToRemove);
-    NSLog(@"%@", ipToAdd);
-    
+//    NSLog(@"%@", ipToRemove);
+//    NSLog(@"%@", ipToAdd);
+//    
     [self.collectionView selectItemAtIndexPath:nil animated:NO scrollPosition:UICollectionViewScrollPositionNone];
     
     [self.collectionView performBatchUpdates:^{
@@ -639,6 +643,7 @@ static NSString * const CollectionRenderObjectCellIdentifier = @"RenderCell";
     [self.collectionSource refreshAsCurrentCollection];
 
 }
+
 
 
 
@@ -676,51 +681,6 @@ static NSString * const CollectionRenderObjectCellIdentifier = @"RenderCell";
         [[NSNotificationCenter defaultCenter] postNotificationName:obj.notificationString object:obj];
         
     }
-
-//    if ([obj isKindOfClass:[wsActionObject class]]) {
-//        
-//        
-//        
-//    }
-//    
-//    if ([obj isKindOfClass:[wsActionObject class]]) {
-//        
-//        [[NSNotificationCenter defaultCenter] postNotificationName:obj.notificationString object:obj];
-//        
-//    }
-//    
-    
-    
-//    // set the update callback if needed
-//    if ([obj respondsToSelector:@selector(callback)]) {
-//        
-//        NSLog(@"object contains callback functionality, define");
-//        
-//        // Batch this so the other sections will be updated on completion
-//        __weak wsCollectionViewController *weakSelf = self;
-//        
-//        ((wsServerObject*)obj).callback =^ (BOOL refreshSuccess) {
-//            
-//            if (refreshSuccess) {
-//                [weakSelf refreshCollectionLayout];
-//            }
-//        };
-//    }
-//    
-
-    
-    // if it is a collection object, just load it and let the interface figure it out
-//    if ([obj isKindOfClass:[wsCollectionObject class]]) {
-//        
-//        [self refreshCollectionLayout];
-//    }
-    
-//    
-//    if ([obj isKindOfClass:[wsServerObject class]]) {
-//    
-//        [(wsServerObject*)self.dataObj loadRootPath];
-//
-//    }
 }
 
 

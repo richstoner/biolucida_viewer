@@ -20,13 +20,9 @@
         
         self.iconColor = [UIColor whiteColor];
         
-        self.layer.borderColor = [UIColor darkGrayColor].CGColor;
-        self.layer.borderWidth = 1.0f;
-        self.layer.shadowColor = kCollectionItemShadowColor.CGColor;
-        self.layer.shadowRadius = 4.0f;
-        self.layer.shadowOffset = CGSizeMake(0.0f, 2.0f);
-        self.layer.shadowOpacity = 0.5f;
-        self.layer.cornerRadius = 4.0f;
+
+
+//        self.layer.cornerRadius = 4.0f;
         
         // make sure we rasterize nicely for retina
         self.layer.rasterizationScale = [UIScreen mainScreen].scale;
@@ -41,7 +37,13 @@
         self.imageView = [[UIImageView alloc] initWithFrame:newBounds];
         self.imageView.contentMode = UIViewContentModeScaleAspectFill;
         self.imageView.clipsToBounds = YES;
-        //        self.imageView.layer.cornerRadius = 10.0f;
+        self.imageView.layer.borderColor = [UIColor lightGrayColor].CGColor;
+        self.imageView.layer.borderWidth = 1.0f;
+
+//        self.imageView.layer.shadowColor = kCollectionItemShadowColor.CGColor;
+//        self.imageView.layer.shadowRadius = 4.0f;
+//        self.imageView.layer.shadowOffset = CGSizeMake(0.0f, 2.0f);
+//        self.imageView.layer.shadowOpacity = 0.5f;
         
         
         self.primaryLabel = [[UILabel alloc] initWithFrame:CGRectMake(5,newBounds.size.height + 2, 225, 20)];

@@ -103,6 +103,8 @@
         tabbedViewController.view.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
         [self.view addSubview:tabbedViewController.view];
         
+        [tabbedViewController addOpenTab];
+        
         [self addChildViewController:tabbedViewController];
         [self.tabbedViewControllers addObject:tabbedViewController];
     }

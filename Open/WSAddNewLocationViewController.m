@@ -56,6 +56,8 @@ const static CGFloat kJVFieldFloatingLabelFontSize = 11.0f;
 @property(nonatomic, strong) UIActivityIndicatorView* activityIndicator;
 @property(nonatomic, strong) UILabel* lastTestLabel;
 @property(nonatomic, assign) BOOL hasValidSite;
+@property(nonatomic, strong) wsServerObject* objectToAdd;
+
 
 @property(nonatomic, strong) JVFloatLabeledTextField* titleField;
 @property(nonatomic, strong) JVFloatLabeledTextField* urlField;
@@ -229,62 +231,82 @@ const static CGFloat kJVFieldFloatingLabelFontSize = 11.0f;
     
     if (baseURL.scheme && baseURL.host) {
         
-        [self.activityIndicator startAnimating];
-        
-        NSURL* testURL = [baseURL URLByAppendingPathComponent:@"api/v1/server"];
-        
-        AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
-        
-        [manager GET:testURL.absoluteString parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
-            
-            NSLog(@"JSON: %@", responseObject);
-            
-            self.lastTestLabel.text = @"Valid MBF server √";
-            self.hasValidSite = YES;
-            [self.titleField becomeFirstResponder];
-
-            [self.activityIndicator stopAnimating];
-
-            
-        } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-            
-            NSLog(@"Error: %@", error);
-            self.lastTestLabel.text =@"Not a valid server type";
-            [self.activityIndicator stopAnimating];
-            
-        }];
+        [self validateURL:baseURL];
     
     }
-    else{
-        self.lastTestLabel.text = @"Invalid url";
+    else {
+        
+        NSURL* httpURL = [NSURL URLWithString:[NSString stringWithFormat:@"http://%@", [self.urlField.text lowercaseString]]];
+        
+        [self validateURL:httpURL];
     }
+//    else {
+//        self.lastTestLabel.text = @"Invalid url";
+//    }
+}
+
+-(void) validateURL:(NSURL*) baseURL {
+    
+    [self.activityIndicator startAnimating];
+    
+    NSURL* testURL = [baseURL URLByAppendingPathComponent:@"api/v1/server"];
+    
+    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    
+    [manager GET:testURL.absoluteString parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
+        
+        NSLog(@"JSON: %@", responseObject);
+        
+        NSDictionary* responseDict = (NSDictionary*)responseObject;
+        
+        self.lastTestLabel.text = @"Valid MBF server √";
+        
+        self.objectToAdd = [wsBiolucidaServerObject new];
+        self.objectToAdd.description = responseDict[@"description"];
+        self.objectToAdd.url = baseURL;
+        
+        self.hasValidSite = YES;
+        [self.titleField becomeFirstResponder];
+        
+        [self.activityIndicator stopAnimating];
+        
+        
+    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+        
+        NSLog(@"Error: %@", error);
+        self.lastTestLabel.text =@"Not a valid server type";
+        [self.activityIndicator stopAnimating];
+        
+    }];
 }
 
 
 
 - (BOOL)textFieldShouldReturn:(UITextField *)textField {
+
     // Find the next entry field
+//    if ([textField isEqual:self.urlField]) {
+//        
+//        if (self.urlField.text.length == 0) {
+//            self.urlField.text = @"http://173.9.92.122";
+//        }
+//        else{
+//            
+//            [self testURL:nil];
+//            
+//        }
+//        
+//        return YES;
+//    }else
     
-    if ([textField isEqual:self.urlField]) {
-        
-        if (self.urlField.text.length == 0) {
-            self.urlField.text = @"http://173.9.92.122";
-        }
-        else{
-            
-            [self testURL:nil];
-            
-        }
-        
-        return YES;
-    }else if([textField isEqual:self.titleField]){
-        
-//        NSLog(@"here...");
+    if([textField isEqual:self.titleField]){
         
         if (self.titleField.text.length == 0) {
             self.titleField.text = @"MBF @ 173.9.92.122";
             
             if (self.hasValidSite) {
+                
+                self.objectToAdd.title = self.titleField.text;
                 self.addButton.enabled = YES;
             }
         }
@@ -293,7 +315,6 @@ const static CGFloat kJVFieldFloatingLabelFontSize = 11.0f;
             [self addURL:nil];
             
         }
-        
     }
     
     return NO;
@@ -326,15 +347,12 @@ const static CGFloat kJVFieldFloatingLabelFontSize = 11.0f;
     if (self.hasValidSite)
     {
         
+        self.objectToAdd.title = self.titleField.text;
+        
         NSLog(@"adding server to %@", self.sourceObject);
         
-        wsBiolucidaServerObject* bso = [wsBiolucidaServerObject new];
-        bso.title = self.titleField.text;
-        bso.url = [NSURL URLWithString:self.urlField.text];
-        
         NSDictionary* msg = @{@"source": self.sourceObject,
-                              @"object": bso};
-        
+                              @"object": self.objectToAdd};
         
         [[NSNotificationCenter defaultCenter] postNotificationName:kNotificationAddObjectSuccess object:msg];
         

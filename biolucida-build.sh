@@ -12,7 +12,7 @@ echo $archive_path
 echo $build_number
 
 xcodebuild\
- -workspace "Open.xcworkspace"\
+ -workspace "Biolucida.xcworkspace"\
  -scheme "Biolucida Adhoc"\
  archive -archivePath $archive_path
 

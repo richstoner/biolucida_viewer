@@ -37,7 +37,7 @@
 
 - (NSString*) localizedDescription
 {
-    return @"Biolucida Cloud Server";
+    return self.description;
 }
 
 
@@ -47,6 +47,7 @@
     
     NSDictionary* local_keymap = @{
                                    @"serverAuthToken" :      @[ @"serverAuthToken", @"object"],
+                                   @"description" : @[ @"description", @"object"],
                                    };
     
     [km addEntriesFromDictionary:local_keymap];
@@ -89,18 +90,33 @@
 - (NSArray *) collectionForFolder:(NSArray*)theArray withBasePath:(NSString*)basePath
 {
     NSMutableArray* folderArray = [[NSMutableArray alloc] init];
+    
+    NSLog(@"%@", theArray);
 
     for (NSDictionary* folderDescription in theArray) {
         
         wsBiolucidaCollectionObject* collection = [wsBiolucidaCollectionObject new];
         collection.server = self;
-        collection.fontAwesomeIconString = fa_folder_o;
+        collection.localIconString = @"large_folder.png";
         collection.title = folderDescription[@"name"];
-        collection.description = self.localizedDescription;
+        
+        if ([[folderDescription allKeys] containsObject:@"description"]) {
+            
+            NSLog(@"%@", folderDescription[@"description"]);
+            
+            if (folderDescription[@"description"] != [NSNull null] ) {
+                collection.description = folderDescription[@"description"];
+            } else {
+                collection.description = @"No description";
+            }
+        }
+        else {
+            collection.description = @"No description";
+        }
+
+    
         collection.relativePath = [basePath stringByAppendingFormat:@"%@/", folderDescription[@"name"]];
-        
-//        NSLog(@"creating %@ collection (aka section)", collection.localizedName);
-        
+
         id subfolders = folderDescription[@"folders"];
 
         [collection addChild:[[WSMetaDataStore sharedDataStore] addGoBackObject]];
@@ -108,8 +124,7 @@
         if([subfolders isKindOfClass:[NSArray class]]) {
             
             NSArray* contents = [self collectionForFolder:subfolders withBasePath:[basePath stringByAppendingFormat:@"%@/", folderDescription[@"name"]]];
-            
-            
+        
             [collection addChildren:contents];
         }
         
@@ -127,15 +142,6 @@
     [self loadPath:@"/"];
 }
 
-+ (NSString *)uuid
-{
-    CFUUIDRef uuidRef = CFUUIDCreate(NULL);
-    CFStringRef uuidStringRef = CFUUIDCreateString(NULL, uuidRef);
-    CFRelease(uuidRef);
-    return (__bridge NSString *)uuidStringRef;
-}
-
-
 
 -(void) loginWithCredentials:(NSDictionary*) credentials
 {
@@ -144,7 +150,7 @@
     
     if (username.length > 0 && password.length > 0) {
         
-        NSString* generatedAuthToken = [wsBiolucidaServerObject uuid];
+        NSString* generatedAuthToken = [[NSUUID UUID] UUIDString];
         
         NSURL* authURL = [self.url URLByAppendingPathComponent:@"api/v1/authenticate"];
         
@@ -205,7 +211,7 @@
     
         
         
-        NSString* generatedAuthToken = [wsBiolucidaServerObject uuid];
+        NSString* generatedAuthToken = [[NSUUID UUID] UUIDString];
         
         NSURL* authURL = [self.url URLByAppendingPathComponent:@"api/v1/authenticate"];
         

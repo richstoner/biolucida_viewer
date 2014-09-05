@@ -33,7 +33,8 @@
     
     CGRect fPrev = [self layoutAttributesForItemAtIndexPath:ipPrev].frame;
     CGFloat rightPrev = fPrev.origin.y + fPrev.size.height + 10;
-    if (atts.frame.origin.y <= rightPrev) // degenerate case 2, first item of line
+//    if (atts.frame.origin.y <= rightPrev) // degenerate case 2, first item of line
+    
         return atts;
     
     CGRect f = atts.frame;

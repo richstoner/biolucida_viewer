@@ -14,12 +14,14 @@
 
 @implementation wsBiolucidaManagedCollection
 
-
+@synthesize title, description,localIconString;
 
 - (id)init
 {
     self = [super init];
     if (self) {
+        
+
         self.title = @"Biolucida Servers";
         self.localIconString = @"MBFlogo.png";
         self.description = @"MBF Bioscience";
@@ -39,8 +41,6 @@
 
     [self addChildren:[[WSMetaDataStore sharedDataStore] mbfList]];
     
-//    [self addChild:[[WSMetaDataStore sharedDataStore] addNewObjectObject]];
-
     if ([self.delegate respondsToSelector:@selector(collectionObjectHasNewSections:)]) {
         [self.delegate collectionObjectHasNewSections:self];
     }

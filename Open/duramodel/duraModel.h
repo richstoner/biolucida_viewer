@@ -19,7 +19,6 @@
 #import "wsBounds.h"
 #import "wsRenderObject.h"
 #import "wsImageObject.h"
-#import "WSGLAxesObject.h"
 #import "wsRemoteImageObject.h"
 #import "wsRemoteZoomifyObject.h"
 #import "wsTileObject.h"

@@ -487,7 +487,7 @@
 //    NSArray *dirs = [[NSFileManager defaultManager] URLsForDirectory:NSDocumentDirectory inDomains:NSUserDomainMask];
 //    return [dirs lastObject];
 //}
-//
+
 //
 //- (NSArray *)rowsForDirectory:(NSURL *)rootUrl
 //{
@@ -1011,7 +1011,18 @@
     
     for (NSString* key in [dictForObject allKeys]) {
         
-        [htmlString appendFormat:@"<div><b>%@</b></div><p>%@</p>", key, dictForObject[key]];
+        id toAdd = dictForObject[key];
+        
+        if ([toAdd isKindOfClass:[NSString class]]) {
+
+            toAdd =  [(NSString*)toAdd stringByReplacingOccurrencesOfString:@"\n" withString:@"<br>"];
+            
+        }
+        
+        NSLog(@"%@", toAdd);
+
+        
+        [htmlString appendFormat:@"<div><b>%@</b></div><p>%@</p>", key, toAdd];
         
     }
     

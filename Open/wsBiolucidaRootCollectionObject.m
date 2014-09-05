@@ -21,7 +21,9 @@
 
 @implementation wsBiolucidaRootCollectionObject
 
-
+@synthesize starList;
+@synthesize recentsList;
+@synthesize optionsList;
 
 - (id)init
 {
@@ -50,18 +52,18 @@
 
     
 
-    // starred
+    // saved items
     self.starList = [wsCollectionObject new];
     self.starList.fontAwesomeIconString = fa_bookmark;
     self.starList.title = @"Saved items";
-    self.starList .description = @"To save items, tap and hold on their thumbnail or tab and tap 'Save'";
+    self.starList.description = @"To save items, tap and hold on their thumbnail or tab and tap 'Save'";
     self.starList.fontAwesomeIconString = fa_folder;
     
-    NSArray* starList = [[WSMetaDataStore sharedDataStore] starList];
+    NSArray* _starList = [[WSMetaDataStore sharedDataStore] starList];
 //    NSLog(@"Star list has %d objects", starList.count);
     
     if (starList !=nil) {
-        [self.starList  addChildren:starList];
+        [self.starList  addChildren:_starList];
     }
     
     [self addChild:self.starList];
@@ -73,9 +75,9 @@
     self.recentsList.fontAwesomeIconString = fa_clock_o;
     self.recentsList.description = @"Items last viewed on this device";
     
-    NSArray* recentsList = [[WSMetaDataStore sharedDataStore] recentsList];
-    if (recentsList !=nil) {
-        [self.recentsList addChildren:recentsList];
+    NSArray* _recentsList = [[WSMetaDataStore sharedDataStore] recentsList];
+    if (_recentsList !=nil) {
+        [self.recentsList addChildren:_recentsList];
     }
     [self addChild:self.recentsList];
     
@@ -136,21 +138,18 @@
     [self.managedCollection refreshAsNewCollection];
     
     [self.recentsList removeChildren];
-    NSArray* recentsList = [[WSMetaDataStore sharedDataStore] recentsList];
-    if (recentsList !=nil) {
-        [self.recentsList addChildren:recentsList];
+    NSArray* recentsList_ = [[WSMetaDataStore sharedDataStore] recentsList];
+    if (recentsList_ !=nil) {
+        [self.recentsList addChildren:recentsList_];
     }
-    
     
     [self.starList removeChildren];
-    NSArray* starList = [[WSMetaDataStore sharedDataStore] starList];
+    NSArray* starList_ = [[WSMetaDataStore sharedDataStore] starList];
     //    NSLog(@"Star list has %d objects", starList.count);
     
-    if (starList !=nil) {
-        [self.starList  addChildren:starList];
+    if (starList_ !=nil) {
+        [self.starList  addChildren:starList_];
     }
-    
-    
     
     if ([self.delegate respondsToSelector:@selector(collectionObjectHasNewSections:)]) {
         
@@ -166,7 +165,6 @@
     self.originalIndexList = [self validIndexPaths];
     
     [self.managedCollection refreshAsCurrentCollection];
-    
     
     [self.recentsList removeChildren];
     NSArray* recentsList = [[WSMetaDataStore sharedDataStore] recentsList];

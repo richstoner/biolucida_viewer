@@ -10,6 +10,7 @@
 
 @implementation wsServerObject
 
+@synthesize title, description;
 
 - (id)init
 {

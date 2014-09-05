@@ -16,7 +16,6 @@
 
 @property (nonatomic, strong) UIColor* iconColor;
 
-
 @property (nonatomic, strong) UIImageView *imageView;
 
 @property (nonatomic, strong) UILabel* primaryLabel;

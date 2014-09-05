@@ -71,19 +71,23 @@
 
 -(void) setLayerBackground:(NSURL*) pathForBaseBackground
 {
-    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
     
-    __weak wsBiolucidaRemoteImageObject* weakSelf = self;
-    
-    [manager GET:pathForBaseBackground.absoluteString parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
-        
-        weakSelf.background_base = [[responseObject[@"image"][@"thumbnail"] stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding]  stringByReplacingOccurrencesOfString:@"&amp;" withString:@"&"];
-        
-    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-        
-        NSLog(@"Error: %@", error);
-        
-    }];
+    self.background_base = pathForBaseBackground.absoluteString;
+//    
+//    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+//    manager.responseSerializer = [AFImageResponseSerializer serializer];
+//    
+//    __weak wsBiolucidaRemoteImageObject* weakSelf = self;
+//    
+//    [manager GET:pathForBaseBackground.absoluteString parameters:nil success:^(AFHTTPRequestOperation *operation, id responseObject) {
+//        
+//        weakSelf.background_base = [[responseObject[@"image"][@"thumbnail"] stringByAddingPercentEscapesUsingEncoding:NSASCIIStringEncoding]  stringByReplacingOccurrencesOfString:@"&amp;" withString:@"&"];
+//        
+//    } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+//        
+//        NSLog(@"Error: %@", error);
+//        
+//    }];
 
 }
 
@@ -99,6 +103,7 @@
 
 -(void) unregisterNotifications {
     VerboseLog();
+    
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
@@ -115,7 +120,6 @@
 
 -(UIImage*) getImageForTileGroup:(int)tilegroup zoom:(int)z row:(int)row col:(int)col
 {
-    
     NSURL* imageURL = [self.url URLByAppendingPathComponent:[NSString stringWithFormat:@"api/v1/tile/%@/%d-%d-%d-%d", self.url_id, z, col, row, [self.z_index intValue]]];
     
     NSLog(@"%@", imageURL);
@@ -139,127 +143,7 @@
     else{
         //        NSLog(@"correct map, nil");
     }
-    
-    //
-    //
-    //    if ([self.zoomMap[z] integerValue] == z) {
-    //
-    //        // zoom map matches z
-    //
-    ////        UIImage*  tile = [self getImageForScale:scale row:row col:col];
-    //        UIImage* tile = [self getImageForTileGroup:-1 zoom:z row:row col:col];
-    //
-    //        if (tile) {
-    //            [tile drawInRect:tileRect];
-    //        }
-    //        else{
-    //            NSLog(@"correct map, nil");
-    //        }
-    //
-    //    }
-    //    else{
-    //
-    //        int delta_from_z = z - [self.zoomMap[z] integerValue];
-    //        NSLog(@"%d", delta_from_z);
-    //
-    //        // delta from z is how many levels we differ from actual zoom level
-    //
-    //        if(delta_from_z == -1)
-    //        {
-    ////            UIImage*  ul = [self getImageForScale:scale row:(row*2) col:(col*2)];
-    //            UIImage* ul = [self getImageForTileGroup:-1 zoom:[self.zoomMap[z] integerValue] row:(row*2) col:(col*2)];
-    //
-    //            if (ul) {
-    //                [ul drawInRect:CGRectMake(tileRect.origin.x, tileRect.origin.y, tileRect.size.width/2, tileRect.size.height/2)];
-    //            }
-    //            else{
-    //                NSLog(@"tile is nil");
-    //            }
-    //
-    //            UIImage* ur = [self getImageForTileGroup:-1 zoom:[self.zoomMap[z] integerValue] row:(row*2) col:(col*2)+1];
-    //
-    //            if (ur) {
-    //                [ur drawInRect:CGRectMake(tileRect.origin.x + tileRect.size.width/2 , tileRect.origin.y, tileRect.size.width/2, tileRect.size.height/2)];
-    //            }
-    //            else{
-    //                NSLog(@"tile is nil");
-    //            }
-    //
-    //
-    //
-    //            UIImage* bl = [self getImageForTileGroup:-1 zoom:[self.zoomMap[z] integerValue] row:(row*2)+1 col:(col*2)];
-    //
-    //            if (bl) {
-    //                [bl drawInRect:CGRectMake(tileRect.origin.x, tileRect.origin.y + tileRect.size.height/2, tileRect.size.width/2, tileRect.size.height/2)];
-    //            }
-    //            else{
-    //                NSLog(@"tile is nil");
-    //            }
-    //
-    //            UIImage* br = [self getImageForTileGroup:-1 zoom:[self.zoomMap[z] integerValue] row:(row*2)+1 col:(col*2)+1];
-    //
-    //            if (br) {
-    //                [br drawInRect:CGRectMake(tileRect.origin.x + tileRect.size.width/2 , tileRect.origin.y + tileRect.size.height/2, tileRect.size.width/2, tileRect.size.height/2)];
-    //            }
-    //            else{
-    //                NSLog(@"tile is nil");
-    //            }
-    //
-    //
-    //
-    //
-    //
-    //
-    //        }
-    //    }
-    
-    //    [self.img drawInRect:tileRect forScale:scale row:row col:col];
-    
-    
-    //    http://173.9.92.122/api/v1/tile/1/0-0-0
-    
-    
-    //
-    //        NSLog(@"%d vs %d", z, [self.zoomMap[z] integerValue] );
-    //
-    //        return nil;
-    //
-    //        //        NSURL* imageURL = [self.baseURL URLByAppendingPathComponent:[NSString stringWithFormat:@"api/v1/tile/%@/%d-%d-%d-%d", self.url_id, z, col, row, self.z_index]];
-    //        //
-    //        //        UIImage *image = [UIImage imageWithData:[NSData dataWithContentsOfURL:imageURL]];
-    //        //
-    //        //        return image;
-    //
-    //    }
-    
-    
-    
-    
 }
-
-
-//- (UIImage*)imageByCombiningImage:(UIImage*)firstImage withImage:(UIImage*)secondImage {
-//    UIImage *image = nil;
-//
-//    CGSize newImageSize = CGSizeMake(MAX(firstImage.size.width, secondImage.size.width), MAX(firstImage.size.height, secondImage.size.height));
-//    if (UIGraphicsBeginImageContextWithOptions != NULL) {
-//        UIGraphicsBeginImageContextWithOptions(newImageSize, NO, [[UIScreen mainScreen] scale]);
-//    } else {
-//        UIGraphicsBeginImageContext(newImageSize);
-//    }
-//    [firstImage drawAtPoint:CGPointMake(roundf((newImageSize.width-firstImage.size.width)/2),
-//                                        roundf((newImageSize.height-firstImage.size.height)/2))];
-//    [secondImage drawAtPoint:CGPointMake(roundf((newImageSize.width-secondImage.size.width)/2),
-//                                         roundf((newImageSize.height-secondImage.size.height)/2))];
-//
-//    image = UIGraphicsGetImageFromCurrentImageContext();
-//    UIGraphicsEndImageContext();
-//
-//    return image;
-//}
-
-
-
 
 - (int) tileGroupForZoom:(int)zoom row:(int)row col:(int)col
 {
@@ -289,8 +173,6 @@
     return self.thumbnailURL;
     
 #else
-    
-    //    NSURL* imageURL = [self.baseURL URLByAppendingPathComponent:[NSString stringWithFormat:@"api/v1/tile/%@", self.url_id]];
     
     NSURL* imageURL = [self.baseURL URLByAppendingPathComponent:[NSString stringWithFormat:@"api/v1/tile/%@/0-0-0", self.url_id]];
     
