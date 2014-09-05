@@ -14,4 +14,6 @@
 
 -(wsObject*) getCurrentObject;
 
+-(void)createWebkitview;
+
 @end

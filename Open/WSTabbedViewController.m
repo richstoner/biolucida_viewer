@@ -235,9 +235,13 @@
         
         WSLayersViewController* newTab = [[WSLayersViewController alloc] init];
         
-                [newTab updateWithObject:(wsImageObject*)theObject];
+#pragma warning hack for ios8 webkitview
         
-                [[WSMetaDataStore sharedDataStore] pushDataObjectToHistory:theObject];
+        [newTab createWebkitview];
+        
+        
+        [newTab updateWithObject:(wsImageObject*)theObject];
+        [[WSMetaDataStore sharedDataStore] pushDataObjectToHistory:theObject];
         
         NSString* localizedName = theObject.localizedName;
         __weak WSTabbedViewController* weakself = self;

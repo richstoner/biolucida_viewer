@@ -21,7 +21,7 @@ var createMap = function(divId, viewToUse, rotate) {
     rotate = rotate || false;
     var mapOptions = {
         layers: [],
-        renderer: "canvas",
+        renderer: "webgl",
         target: divId,
         view: viewToUse
     };

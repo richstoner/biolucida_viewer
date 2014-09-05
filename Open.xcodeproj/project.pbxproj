@@ -207,6 +207,7 @@
 		A8F9B22F1883401F0015D201 /* wsDefaultCollectionCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A8F9B22B1883401F0015D201 /* wsDefaultCollectionCell.m */; };
 		A8F9B234188342AD0015D201 /* wsDetailedCollectionCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A8F9B231188342AD0015D201 /* wsDetailedCollectionCell.m */; };
 		A8F9B235188342AD0015D201 /* wsDetailedCollectionCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A8F9B231188342AD0015D201 /* wsDetailedCollectionCell.m */; };
+		A8FC2A5919BA1FEE00471D49 /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A8FC2A5819BA1FEE00471D49 /* WebKit.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -360,6 +361,7 @@
 		A8F9B22B1883401F0015D201 /* wsDefaultCollectionCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = wsDefaultCollectionCell.m; sourceTree = "<group>"; };
 		A8F9B230188342AD0015D201 /* wsDetailedCollectionCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = wsDetailedCollectionCell.h; sourceTree = "<group>"; };
 		A8F9B231188342AD0015D201 /* wsDetailedCollectionCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = wsDetailedCollectionCell.m; sourceTree = "<group>"; };
+		A8FC2A5819BA1FEE00471D49 /* WebKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WebKit.framework; path = System/Library/Frameworks/WebKit.framework; sourceTree = SDKROOT; };
 		B7AB8748707C4BD39A0491E3 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -383,6 +385,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A8FC2A5919BA1FEE00471D49 /* WebKit.framework in Frameworks */,
 				A88D8D35187B6F4A00B6C50D /* Accelerate.framework in Frameworks */,
 				A8EEDEC8187B553A0055E94E /* OpenGLES.framework in Frameworks */,
 				A8EEDEC9187B553A0055E94E /* GLKit.framework in Frameworks */,
@@ -548,6 +551,7 @@
 		A8653A8F1811BF01001EC8CF /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				A8FC2A5819BA1FEE00471D49 /* WebKit.framework */,
 				A88D8D34187B6F4A00B6C50D /* Accelerate.framework */,
 				A8353ACB1835BD6200C46E3A /* OpenGLES.framework */,
 				A8353AC81835BB8D00C46E3A /* GLKit.framework */,
@@ -1246,7 +1250,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -1271,7 +1275,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 6.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				OTHER_CFLAGS = "-DNS_BLOCK_ASSERTIONS=1";
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -1300,9 +1304,10 @@
 					"ISMBF=1",
 				);
 				INFOPLIST_FILE = "Biolucida-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				PRODUCT_NAME = Biolucida;
 				PROVISIONING_PROFILE = "";
+				TARGETED_DEVICE_FAMILY = 2;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -1328,9 +1333,10 @@
 					"ISMBF=1",
 				);
 				INFOPLIST_FILE = "Biolucida-Info.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				PRODUCT_NAME = Biolucida;
 				PROVISIONING_PROFILE = "";
+				TARGETED_DEVICE_FAMILY = 2;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
@@ -1358,6 +1364,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				PRODUCT_NAME = Biolucida;
 				PROVISIONING_PROFILE = "";
+				TARGETED_DEVICE_FAMILY = 2;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -1385,6 +1392,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				PRODUCT_NAME = Biolucida;
 				PROVISIONING_PROFILE = "";
+				TARGETED_DEVICE_FAMILY = 2;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
