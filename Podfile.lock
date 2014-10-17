@@ -23,6 +23,10 @@ PODS:
   - ARCollectionViewMasonryLayout (1.0.0)
   - BButton (4.0.1)
   - BMFloatingHeaderCollectionViewLayout (1.0.0)
+  - CocoaAsyncSocket (7.3.5)
+  - CocoaHTTPServer (2.3):
+    - CocoaAsyncSocket
+    - CocoaLumberjack
   - CocoaLumberjack (2.0.0-beta):
     - CocoaLumberjack/CLI
     - CocoaLumberjack/Core
@@ -59,6 +63,7 @@ DEPENDENCIES:
   - ARCollectionViewMasonryLayout
   - BButton (from `https://github.com/jessesquires/BButton.git`)
   - BMFloatingHeaderCollectionViewLayout
+  - CocoaHTTPServer
   - CocoaLumberjack
   - DMDynamicWaterfall
   - Dropbox-iOS-SDK
@@ -87,6 +92,8 @@ SPEC CHECKSUMS:
   ARCollectionViewMasonryLayout: df68d78a4ec885d2ee224b558daf35c6ae46f9be
   BButton: 5638f739619ef97ec4fb5ca3828c72e3bd104cdf
   BMFloatingHeaderCollectionViewLayout: d12e9c4e34454d4bace0752b006fff361a555b8d
+  CocoaAsyncSocket: 45bdbbc1c0a5ed0640ff4c42af325ba43a2f099a
+  CocoaHTTPServer: 217df4cba4e48803db2480f97b805aaad2230dd1
   CocoaLumberjack: aadc76d7bd6c839ca84b38ed50cbf89d7cf8c693
   DMDynamicWaterfall: 0a007b9381e6444a40c2c2b714d6b6c07f40a0fa
   Dropbox-iOS-SDK: 3bd81e7abfeb66b8fced09768db0166286a90f3f

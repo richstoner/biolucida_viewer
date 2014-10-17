@@ -25,6 +25,7 @@
         self.title = @"Biolucida Servers";
         self.localIconString = @"MBFlogo.png";
         self.description = @"MBF Bioscience";
+        self.showWhenEmpty = YES;
     }
     return self;
 }
@@ -45,11 +46,15 @@
         [self.delegate collectionObjectHasNewSections:self];
     }
     
+    
+
+    
+    
 }
 
 -(void) refreshAsNewCollection
 {
-    VerboseLog();
+
     
     self.originalIndexList = [self validIndexPaths];
     
@@ -64,6 +69,8 @@
         [self.delegate collectionObjectHasNewSections:self];
     }
     
+    
+
 }
 
 -(NSArray*)collections
@@ -89,12 +96,50 @@
     
     [self addChildren:[[WSMetaDataStore sharedDataStore] mbfList]];
     
-//    [self addChild:[[WSMetaDataStore sharedDataStore] addNewObjectObject]];
+    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    
+    NSURL* serverPath = [NSURL URLWithString:@"http://localhost:8000/current.json"];
+    manager.requestSerializer = [AFJSONRequestSerializer serializer];
+    
+    __weak wsBiolucidaManagedCollection* weakself = self;
+    
+    [manager GET:serverPath.absoluteString
+      parameters:nil
+         success:^(AFHTTPRequestOperation *operation, id responseObject) {
+             
+             NSDictionary* objDict = (NSDictionary*)responseObject;
+             
+             wsObject* serverObject = [WSMetaDataStore objectFromDictionary:objDict];
+             
+             VerboseLog(@"%@", serverObject);
+             
+             [weakself addChild:serverObject];
+
+             NSLog(@"%@", self.children);
+             
+             if ([self.delegate respondsToSelector:@selector(collectionObjectHasNewItems:)]) {
+                 [self.delegate collectionObjectHasNewItems:self];
+             }
+             
+             
+         }
+     
+         failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+             
+             NSLog(@"%@", operation.request.allHTTPHeaderFields);
+             NSLog(@"Error: %@", error);
+             
+             NSLog(@"Response code: %d", operation.response.statusCode);
+             NSLog(@"%@", operation.responseString);
+             
+             if ([self.delegate respondsToSelector:@selector(collectionObjectHasNewItems:)]) {
+                 [self.delegate collectionObjectHasNewItems:self];
+             }
+             
+         }];
     
     
-    if ([self.delegate respondsToSelector:@selector(collectionObjectHasNewItems:)]) {
-        [self.delegate collectionObjectHasNewItems:self];
-    }
+
 
     
 }

@@ -26,6 +26,7 @@
         
         // it's going to be a collection... probably want to initialize the nsmutablearray
         self.children = [NSMutableArray new];
+        self.showWhenEmpty = NO;
         
     }
     return self;

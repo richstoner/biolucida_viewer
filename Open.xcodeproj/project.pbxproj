@@ -119,6 +119,7 @@
 		A8972A7B1894EB43004E1E50 /* update_biolucida.py in Resources */ = {isa = PBXBuildFile; fileRef = A8972A791894EB43004E1E50 /* update_biolucida.py */; };
 		A89C4EAA188A12EC00AAF31E /* wsTileObject.m in Sources */ = {isa = PBXBuildFile; fileRef = A89C4EA7188A12EC00AAF31E /* wsTileObject.m */; };
 		A89C4EAB188A12EC00AAF31E /* wsTileObject.m in Sources */ = {isa = PBXBuildFile; fileRef = A89C4EA7188A12EC00AAF31E /* wsTileObject.m */; };
+		A8C7F10A19E0ED3500D62161 /* web in Resources */ = {isa = PBXBuildFile; fileRef = A8D3557B19B971D7008AAB80 /* web */; };
 		A8D3556719B95275008AAB80 /* WSLayersViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A8D3556519B95275008AAB80 /* WSLayersViewController.m */; };
 		A8D3556819B95275008AAB80 /* WSLayersViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A8D3556519B95275008AAB80 /* WSLayersViewController.m */; };
 		A8D3556919B95275008AAB80 /* WSLayersViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = A8D3556619B95275008AAB80 /* WSLayersViewController.xib */; };
@@ -131,10 +132,7 @@
 		A8D3557519B9627C008AAB80 /* WSCollectionServerCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A8D3557319B9627C008AAB80 /* WSCollectionServerCell.m */; };
 		A8D3557819B96EC5008AAB80 /* external_link.png in Resources */ = {isa = PBXBuildFile; fileRef = A8D3557719B96EC5008AAB80 /* external_link.png */; };
 		A8D3557919B96EC5008AAB80 /* external_link.png in Resources */ = {isa = PBXBuildFile; fileRef = A8D3557719B96EC5008AAB80 /* external_link.png */; };
-		A8D3557C19B971D7008AAB80 /* web in Resources */ = {isa = PBXBuildFile; fileRef = A8D3557B19B971D7008AAB80 /* web */; };
 		A8D3557D19B971D7008AAB80 /* web in Resources */ = {isa = PBXBuildFile; fileRef = A8D3557B19B971D7008AAB80 /* web */; };
-		A8D3557F19B971E8008AAB80 /* olviewer.html in Resources */ = {isa = PBXBuildFile; fileRef = A8D3557E19B971E8008AAB80 /* olviewer.html */; };
-		A8D3558019B971E8008AAB80 /* olviewer.html in Resources */ = {isa = PBXBuildFile; fileRef = A8D3557E19B971E8008AAB80 /* olviewer.html */; };
 		A8E84C521894E89100927E4C /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = A8E84C511894E89100927E4C /* LICENSE */; };
 		A8E84C531894E89100927E4C /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = A8E84C511894E89100927E4C /* LICENSE */; };
 		A8EEDE88187B553A0055E94E /* wsCollectionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A8EE530218206DC000C8C627 /* wsCollectionViewController.m */; };
@@ -350,7 +348,6 @@
 		A8D3557319B9627C008AAB80 /* WSCollectionServerCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WSCollectionServerCell.m; sourceTree = "<group>"; };
 		A8D3557719B96EC5008AAB80 /* external_link.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = external_link.png; path = SharedResources/external_link.png; sourceTree = SOURCE_ROOT; };
 		A8D3557B19B971D7008AAB80 /* web */ = {isa = PBXFileReference; lastKnownFileType = folder; path = web; sourceTree = "<group>"; };
-		A8D3557E19B971E8008AAB80 /* olviewer.html */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.html; path = olviewer.html; sourceTree = SOURCE_ROOT; };
 		A8D9A2F11874A47000037B87 /* RNFrostedSidebar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RNFrostedSidebar.h; path = Open/RNFrostedSidebar.h; sourceTree = "<group>"; };
 		A8D9A2F21874A47000037B87 /* RNFrostedSidebar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RNFrostedSidebar.m; path = Open/RNFrostedSidebar.m; sourceTree = "<group>"; };
 		A8E84C511894E89100927E4C /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
@@ -660,7 +657,6 @@
 			children = (
 				A8D3556419B95275008AAB80 /* WSLayersViewController.h */,
 				A8D3556519B95275008AAB80 /* WSLayersViewController.m */,
-				A8D3557E19B971E8008AAB80 /* olviewer.html */,
 				A8D3556619B95275008AAB80 /* WSLayersViewController.xib */,
 				A8386038187E04C80027FCF9 /* CollectionView */,
 				A8386037187E04B20027FCF9 /* Modals and overlays */,
@@ -927,7 +923,6 @@
 				A8D3556A19B95275008AAB80 /* WSLayersViewController.xib in Resources */,
 				A86AA5D818808152004735B4 /* qmb-tab-close-icon-highlight@2x.png in Resources */,
 				A86AA5DA18808152004735B4 /* navigation-bar-background_44@2x.png in Resources */,
-				A8D3558019B971E8008AAB80 /* olviewer.html in Resources */,
 				A86AA5DF18808152004735B4 /* qmb-tab-close-icon.png in Resources */,
 				A86AA5E218808152004735B4 /* qmb-tab-background@2x.png in Resources */,
 				A86AA5E318808152004735B4 /* qmb-tab-close-icon-highlight.png in Resources */,
@@ -949,6 +944,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A8C7F10A19E0ED3500D62161 /* web in Resources */,
 				A8EEDED0187B553A0055E94E /* dura.sqlite in Resources */,
 				A8EEDED1187B553A0055E94E /* pinstriped_suit.png in Resources */,
 				A8753BBE18848BD400AF78BD /* AppIcon29x29.png in Resources */,
@@ -981,13 +977,11 @@
 				A8D3556919B95275008AAB80 /* WSLayersViewController.xib in Resources */,
 				A8EEDEE2187B553A0055E94E /* qmb-tab-close-icon-highlight@2x.png in Resources */,
 				A8EEDEE3187B553A0055E94E /* navigation-bar-background_44@2x.png in Resources */,
-				A8D3557F19B971E8008AAB80 /* olviewer.html in Resources */,
 				A8EEDEE5187B553A0055E94E /* qmb-tab-close-icon.png in Resources */,
 				A8EEDEE6187B553A0055E94E /* qmb-tab-background@2x.png in Resources */,
 				A8EEDEE7187B553A0055E94E /* qmb-tab-close-icon-highlight.png in Resources */,
 				A8753BCE18848BD400AF78BD /* iTunesArtwork.png in Resources */,
 				A8753BC618848BD400AF78BD /* AppIcon60x60.png in Resources */,
-				A8D3557C19B971D7008AAB80 /* web in Resources */,
 				A8EEDEEA187B553A0055E94E /* qmb-tab-background-highlight@2x.png in Resources */,
 				A81E24FB18ABEEF3005ED0BE /* flatBackgroundWithShadow.jpg in Resources */,
 				A8EEDEEB187B553A0055E94E /* qmb-tab-icon-default-highlight@2x.png in Resources */,
@@ -1306,7 +1300,7 @@
 				INFOPLIST_FILE = "Biolucida-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				PRODUCT_NAME = Biolucida;
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "9824893E-EA03-4392-9C1C-E55DCD30BE70";
 				TARGETED_DEVICE_FAMILY = 2;
 				WRAPPER_EXTENSION = app;
 			};
@@ -1335,7 +1329,7 @@
 				INFOPLIST_FILE = "Biolucida-Info.plist";
 				IPHONEOS_DEPLOYMENT_TARGET = 8.0;
 				PRODUCT_NAME = Biolucida;
-				PROVISIONING_PROFILE = "";
+				PROVISIONING_PROFILE = "9824893E-EA03-4392-9C1C-E55DCD30BE70";
 				TARGETED_DEVICE_FAMILY = 2;
 				WRAPPER_EXTENSION = app;
 			};
@@ -1347,7 +1341,7 @@
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1375,7 +1369,7 @@
 			buildSettings = {
 				ARCHS = "$(ARCHS_STANDARD_INCLUDING_64_BIT)";
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_IDENTITY = "iPhone Distribution";
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",

@@ -7,109 +7,147 @@
 //
 
 #import "WSLayersViewController.h"
-#import <WebKit/WebKit.h>
 
-@interface WSLayersViewController () <UIWebViewDelegate, WKNavigationDelegate, WKScriptMessageHandler, WKUIDelegate>
+#import "wsBiolucidaRemoteImageObject.h"
+#import "wsDataObject.h"
+#import "wsObject.h"
+
+//#import <WebKit/WebKit.h>
+
+
+
+//@interface WSLayersViewController () <WKNavigationDelegate, WKScriptMessageHandler, WKUIDelegate>
+
+@interface WSLayersViewController () <UIWebViewDelegate>
+
+
+
+
 
 @property(nonatomic, strong) wsDataObject* obj;
 
-@property(nonatomic, strong) WKWebView* webView;
+
+
+//#if USE_WEBKITVIEW
+
+/**
+ 
+ */
+//@property(nonatomic, strong) WKWebView* activeWebView;
+
+//#else
+
+/**
+ 
+ */
+@property(nonatomic, strong) UIWebView* activeWebView;
+
+//#endif
 
 @end
 
 @implementation WSLayersViewController
 
-@synthesize webView;
+/**
+ 
+ */
+@synthesize activeWebView;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
     
     
-    if (!(self.webView)) {
+    if (!(self.activeWebView)) {
         [self createWebkitview];
     }
     
-//    self.webView.frame = self.view.frame;
+    [self.view addSubview:self.activeWebView];
     
-//    UIWebView* webView = (UIWebView*)self.view;
-//    
-//    webView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
-//    webView.delegate = self;
-//    webView.backgroundColor = UIColorFromRGB(0x003399);
-    //    [view addSubview:self.webView];
+    NSURL* html_path = [[NSBundle mainBundle] URLForResource:@"olviewer" withExtension:@"html" subdirectory:@"web"];
+    NSString* htmlString = [NSString stringWithContentsOfURL:html_path encoding:NSUTF8StringEncoding error:nil];
     
-    [self.view addSubview:self.webView];
-    
-    NSMutableString* htmlString = [NSMutableString stringWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"olviewer" ofType:@"html"] encoding:NSUTF8StringEncoding error:nil];
-    NSString *path = [[NSBundle mainBundle] bundlePath];
-    NSURL *baseURL = [NSURL fileURLWithPath:path];
-    
-    [self.webView loadHTMLString:htmlString baseURL:baseURL];
-    
+    [self.activeWebView loadHTMLString:htmlString baseURL:[html_path URLByDeletingLastPathComponent]];
 
 }
 
 -(void)createWebkitview {
     
-    WKWebViewConfiguration* config = [[WKWebViewConfiguration alloc] init];
+//#if USE_WEBKITVIEW
 
-    WKUserContentController* controller = [[WKUserContentController alloc] init];
-    [controller addScriptMessageHandler:self name:@"callbackHandler"];
+//    WKWebViewConfiguration* config = [[WKWebViewConfiguration alloc] init];
+//
+//    WKUserContentController* controller = [[WKUserContentController alloc] init];
+//    [controller addScriptMessageHandler:self name:@"callbackHandler"];
+//    config.userContentController = controller;
+//    
+//    self.activeWebView = [[WKWebView alloc] initWithFrame:[UIScreen mainScreen].bounds configuration:config];
+//    
+//    self.activeWebView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+//    self.activeWebView.navigationDelegate = self;
+//    self.activeWebView.UIDelegate = self;
+//    self.activeWebView.allowsBackForwardNavigationGestures = NO;
+//    
+//    self.activeWebView.backgroundColor = kCollectionViewBackgroundColor;
     
-    config.userContentController = controller;
+//#else
     
-    self.webView = [[WKWebView alloc] initWithFrame:[UIScreen mainScreen].bounds configuration:config];
-//    self.webView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
-    self.webView.navigationDelegate = self;
-    self.webView.UIDelegate = self;
-    self.webView.allowsBackForwardNavigationGestures = NO;
-    
-    
-    self.webView.backgroundColor = UIColorFromRGB(0x003399);
+    self.activeWebView = [[UIWebView alloc] initWithFrame:self.view.frame];
+    self.activeWebView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+    self.activeWebView.delegate = self;
+    self.activeWebView.backgroundColor = kCollectionViewBackgroundColor;
     
 }
+
+//#endif
 
 #pragma mark - WebKit delegate methods
 
-//-(WKWebView *)webView:(WKWebView *)webView createWebViewWithConfiguration:(WKWebViewConfiguration *)configuration forNavigationAction:(WKNavigationAction *)navigationAction windowFeatures:(WKWindowFeatures *)windowFeatures
-//{
+
+
+
+//#if USE_WEBKITVIEW
+//
+//
+//-(void)userContentController:(WKUserContentController *)userContentController didReceiveScriptMessage:(WKScriptMessage *)message {
+//    VerboseLog(@"Message %@", message.body);
+//}
+//
+//
+//-(void)webView:(WKWebView *)webView didFinishNavigation:(WKNavigation *)navigation {
+//    
+////    VerboseLog(@"%@", navigation.request.URL.absoluteString);
+//    
+//    [self performSelector:@selector(loadImageDelayed) withObject:nil afterDelay:10];
+//}
+//
+//-(void)webView:(WKWebView *)webView didCommitNavigation:(WKNavigation *)navigation {
+//    VerboseLog(@"%@", navigation);
+//}
+
+
+//-(void) loadImageDelayed {
+//    
+//    wsBiolucidaRemoteImageObject *img = (wsBiolucidaRemoteImageObject*) self.obj;
+//    
+//    VerboseLog(@"%@", img.url);
+//
+//    NSString* new_url = [img.url.absoluteString stringByReplacingOccurrencesOfString:@"http://" withString:@"http://107.170.194.205:1234/"];
+//    
+//    [self.activeWebView evaluateJavaScript:[NSString stringWithFormat:@"loadBiolucidaImage('%@', '%@')", [NSURL URLWithString:new_url], img.url_id] completionHandler:^(id obj, NSError *err) {
+//        
+//        NSLog(@"JS completed: %@", obj);
+//        
+//        if (err) {
+//            NSLog(@"Error: %@", err.localizedDescription);
+//        }
+//    }];
+//
 //    
 //}
 
--(void)userContentController:(WKUserContentController *)userContentController didReceiveScriptMessage:(WKScriptMessage *)message {
-    VerboseLog(@"%@", message.body);
-}
 
-
--(void)webView:(WKWebView *)webView didFinishNavigation:(WKNavigation *)navigation {
-    VerboseLog(@"%@", navigation.request.URL.absoluteString);
-    
-    wsBiolucidaRemoteImageObject *img = (wsBiolucidaRemoteImageObject*)self.obj;
-
-    
-    [webView evaluateJavaScript:[NSString stringWithFormat:@"loadBiolucidaImage('%@', '%@')", img.url, img.url_id] completionHandler:^(id obj, NSError *err) {
-       
-        NSLog(@"JS completed: %@", err);
-        
-        if (err) {
-            NSLog(@"%@", err.localizedDescription);
-        }
-        
-        
-        
-    }];
-    
-//        NSString* str = [webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"loadBiolucidaImage('%@', '%@')", img.url, img.url_id]];
-    //    NSLog(@"%@", str);
-    
-
-}
-
--(void)webView:(WKWebView *)webView didCommitNavigation:(WKNavigation *)navigation {
-
-    VerboseLog(@"%@", navigation);
-}
+//#endif
 
 
 
@@ -133,62 +171,42 @@
 
 #pragma mark - webview delegate methods -
 
+//#if !USE_WEBKITVIEW
+
 -(void)webViewDidStartLoad:(UIWebView *)webView
 {
     
     VerboseLog();
-    //    NSString *result = [webView stringByEvaluatingJavaScriptFromString:function];
-    //    [[NSNotificationCenter defaultCenter] postNotificationName:AFNetworkingTaskDidStartNotification object:nil];
+//        NSString *result = [webView stringByEvaluatingJavaScriptFromString:function];
+//        [[NSNotificationCenter defaultCenter] postNotificationName:AFNetworkingTaskDidStartNotification object:nil];
     
 }
 
 -(void) webViewDidFinishLoad:(UIWebView *)webView
 {
-
     VerboseLog("%@", self.obj);
     
     wsBiolucidaRemoteImageObject *img = (wsBiolucidaRemoteImageObject*)self.obj;
     
-//    NSString* str = [webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"loadBiolucidaImage('%@', '%@')", img.url, img.url_id]];
-//    NSLog(@"%@", str);
     
-    //    [[NSNotificationCenter defaultCenter] postNotificationName:AFNetworkingTaskDidFinishNotification object:nil];
+    
+    NSString* str = [webView stringByEvaluatingJavaScriptFromString:[NSString stringWithFormat:@"loadBiolucidaImage('%@', '%@')", img.url, img.url_id]];
+    VerboseLog(@"%@", str);
     
 }
 
 -(void) webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error
 {
     VerboseLog(@"%@", error.localizedDescription);
-    //    [[NSNotificationCenter defaultCenter] postNotificationName:AFNetworkingTaskDidFinishNotification object:nil];
 }
 
 -(BOOL) webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType
 {
-    VerboseLog();
-    
-    NSString *requestString = [[[request URL] absoluteString] stringByReplacingPercentEscapesUsingEncoding: NSUTF8StringEncoding];
-    //NSLog(requestString);
-    
-    if ([requestString hasPrefix:@"ios-log:"]) {
-        NSString* logString = [[requestString componentsSeparatedByString:@":#iOS#"] objectAtIndex:1];
-        NSLog(@"UIWebView console: %@", logString);
-        return NO;
-    }
-    
-    
+    VerboseLog(@"%@", request.URL.absoluteString);
     
     return YES;
 }
 
-
-/*
-#pragma mark - Navigation
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
+//#endif
 
 @end

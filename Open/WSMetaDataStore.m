@@ -786,7 +786,6 @@
 + (NSDictionary*) dictionaryForObject:(wsObject*) theObject
 {
     NSDictionary* keyMapForClass = [theObject keyMap];
-//    NSLog(@"%@", keyMapForClass);
     
     NSMutableDictionary* returnDict = [NSMutableDictionary new];
     
@@ -795,12 +794,9 @@
     for (NSString* key in keyMapForClass) {
     
         NSArray* mapping = keyMapForClass[key];
-//        NSLog(@"%@", mapping);
-        
         
         // if we have an object, just do a straight conversion
         if ([mapping[kJSONFormatType] isEqualToString:@"object"]) {
-            
             
             id valueToConvert = [theObject valueForKey:key];
             // only store values that are not nil

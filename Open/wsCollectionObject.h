@@ -28,6 +28,10 @@
 @property(nonatomic, strong) NSMutableArray* children;
 
 
+/**
+ 
+ */
+@property(nonatomic, assign) BOOL showWhenEmpty;
 
 
 #pragma mark - add object and update modify date

@@ -366,7 +366,13 @@ static NSString * const CollectionLargeImageCellIdentifier = @"LargeImageCell";
     // only show the header if the section contains items
     wsCollectionObject* obj = self.collections[section];
     
+    
+    
     if (obj.children.count > 0) {
+        return CGSizeMake(0, 40);
+    }
+    
+    if(obj.showWhenEmpty){
         return CGSizeMake(0, 40);
     }
     
@@ -913,6 +919,7 @@ static NSString * const CollectionLargeImageCellIdentifier = @"LargeImageCell";
         wsCollectionObject* co = (wsCollectionObject*)obj;
         self.temporaryObj = co;
         goingForward = YES;
+        
         [co setDelegate:self];
         
         [co initializeCollection];

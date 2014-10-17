@@ -42,14 +42,10 @@
     
     [self removeChildren];
     
-    
     self.managedCollection = [wsBiolucidaManagedCollection new];
     self.managedCollection.fontAwesomeIconString = fa_folder;
     
     [self addChild:self.managedCollection];
-    
-    
-
     
 
     // saved items
@@ -60,7 +56,7 @@
     self.starList.fontAwesomeIconString = fa_folder;
     
     NSArray* _starList = [[WSMetaDataStore sharedDataStore] starList];
-//    NSLog(@"Star list has %d objects", starList.count);
+    NSLog(@"Star list has %d objects", _starList.count);
     
     if (starList !=nil) {
         [self.starList  addChildren:_starList];
@@ -181,8 +177,7 @@
         [self.starList  addChildren:starList];
     }
     
-    
-    
+
     
     if ([self.delegate respondsToSelector:@selector(collectionObjectHasNewSections:)]) {
         
